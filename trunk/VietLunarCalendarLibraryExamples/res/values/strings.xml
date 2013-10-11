@@ -1,0 +1,10 @@
+<resources>
+
+    <string name="app_name">VietLunarCalendarLibraryExamples</string>
+    <string name="title_activity_main">VietLunarCalendarLibrary</string>
+
+    <string-array name="convert_types">
+        <item>Từ dương lịch -> âm lịch</item>
+        <item>Từ âm lịch -> dương lịch </item>
+    </string-array>
+</resources>
