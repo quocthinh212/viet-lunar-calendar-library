@@ -31,6 +31,36 @@
             android:layout_gravity="right"
             android:text="Chuyển" />
         
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tính số ngày của một tháng âm lịch" />
+        
+        <EditText android:id="@+id/edLunarMonth"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:hint="mm/yyyy"/>
+        
+        <TextView android:id="@+id/tvNumberOfDays"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tính Thiên Can - Địa Chi" />
+        
+        <EditText android:id="@+id/edLunarYear"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:hint="Nhập năm cần tính"/>
+        
+        <TextView android:id="@+id/tvCanChi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        
     </LinearLayout>
 
 </ScrollView>
