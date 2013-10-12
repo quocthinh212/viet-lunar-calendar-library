@@ -25,13 +25,17 @@ import java.util.concurrent.TimeUnit;
 import vu.freeapps.vietlunarcalendarlib.LunarCalendarUtil;
 import vu.freeapps.vietlunarcalendarlib.YMD;
 
+import android.R.string;
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 public class MainActivity extends Activity {
     private static final String RESULT_FORMAT = "Kết quả: %d/%d/%d";
@@ -73,6 +77,59 @@ public class MainActivity extends Activity {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
+            }
+        });
+        
+        final EditText edLunarMonth = (EditText) findViewById(R.id.edLunarMonth);
+        final TextView tvNumberOfDays = (TextView) findViewById(R.id.tvNumberOfDays);
+        
+        edLunarMonth.setOnEditorActionListener(new OnEditorActionListener() {
+            
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                    try {
+                        Date d = sdf.parse("01/" + edLunarMonth.getText().toString());
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(d);
+                        float tz = TimeUnit.HOURS.convert(cal.getTimeZone().getRawOffset(), TimeUnit.MILLISECONDS);
+                        int yy = cal.get(Calendar.YEAR);
+                        int mm = cal.get(Calendar.MONTH) + 1;
+                        String str = "";
+                        if (LunarCalendarUtil.isLunarLeapYear(yy, tz)) {
+                            str = "Tháng trước: " + String.valueOf(LunarCalendarUtil.getNumberOfDaysInLunarMonth(mm, yy, tz, false)) + "\n" +
+                                   "Tháng sau: " + String.valueOf(LunarCalendarUtil.getNumberOfDaysInLunarMonth(mm, yy, tz, true));
+                        } else {
+                            str = String.valueOf(LunarCalendarUtil.getNumberOfDaysInLunarMonth(mm, yy, tz, false));
+                        }
+                        tvNumberOfDays.setText(str);
+                    } catch (Exception e) {
+                        // TODO: handle exception
+                    }       
+                }
+                return false;
+            }
+        });
+        
+        final EditText edLunarYear = (EditText) findViewById(R.id.edLunarYear);
+        final TextView tvCanChi = (TextView) findViewById(R.id.tvCanChi);
+        
+        edLunarYear.setOnEditorActionListener(new OnEditorActionListener() {
+            
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    try {
+                        int year = Integer.parseInt(edLunarYear.getText().toString());
+                        Calendar cal = Calendar.getInstance();
+                        float tz = TimeUnit.HOURS.convert(cal.getTimeZone().getRawOffset(), TimeUnit.MILLISECONDS);
+                        tvCanChi.setText(LunarCalendarUtil.getCanChi(year, tz));
+                    } catch (Exception e) {
+                        // TODO: handle exception
+                    }
+                }
+                return false;
             }
         });
     }

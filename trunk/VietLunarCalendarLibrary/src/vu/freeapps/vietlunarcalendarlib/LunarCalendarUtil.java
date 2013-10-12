@@ -198,6 +198,41 @@ public class LunarCalendarUtil {
         }
     }
     
+    /**
+     * Lấy số ngày của một tháng âm lịch
+     * @param month Tháng âm lịch
+     * @param year Năm âm lịch
+     * @param tz Timezone
+     * @param isLeapMonth Lấy tháng nhuận hay tháng thường
+     * @return Số ngày của tháng
+     */
+    public static int getNumberOfDaysInLunarMonth(int month, int year, float tz, boolean isLeapMonth) {
+        YMD solar1, solar2;
+        
+        solar1 = convertLunar2Solar(year, month, 1, isLeapMonth, tz);
+        if (month != 12) {
+            solar2 = convertLunar2Solar(year, month + 1, 1, isLeapMonth, tz);
+        } else {
+            solar2 = convertLunar2Solar(year+1, 1, 1, isLeapMonth, tz);
+        }
+        
+        return (int) (jdFromDate(solar2.year, solar2.month, solar2.day) - jdFromDate(solar1.year, solar1.month, solar1.day));
+    }
+    
+    /**
+     * Lấy năm theo Thiên Can Địa Chi
+     * @param year Năm
+     * @param tz Timezone
+     * @return
+     */
+    public static String getCanChi(int year, float tz) {
+        String[] arrThienCan = {"Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ", "Canh", "Tân", "Nhâm", "Quý"};
+        String[] arrDiaChi = {"Tí", "Sửu", "Dần", "Mão", "Thìn", "Tị", "Ngọ", "Mùi", "Thân", "Dậu", "Tuất", "Hợi"};
+        return String.format("%s %s",
+                arrThienCan[((year+6)%10)],
+                arrDiaChi[((year%12+8)%12)]);
+    }
+    
     // tinh so Julius cua ngay Soc thu k ke tu 1900
     private static long getNewMoonDay(long k, float tz) {
         double T, T2, T3, dr, Jd1, M, Mpr, F, C1, deltat, JdNew;
